@@ -1,0 +1,12 @@
+---
+beet_domain: "drupal.local"
+beet_root: "{{ beet_base }}/docroot"
+role_path: "{{ beet_home }}/provisioning/ansible/roles/beetboxvm.drupal"
+
+
+beet_project: drupal
+beet_web: "{{ beet_root }}/web"
+drupal_build_composer: yes
+drupal_install_site: yes
+drupal_account_name: admin
+drupal_account_pass: admin

@@ -1,0 +1,24 @@
+---
+- name: Install Acquia cloud API integration.
+  shell: echo $(drush ev "print drush_server_home();")/.drush
+  register: drush_home
+- template:
+    src: "{{ item }}.j2"
+    dest: "{{ drush_home.stdout }}/{{ item }}"
+  with_items:
+    - acapi.drush.inc
+    - cloudapi.acquia.com.pem
+- shell: drush cc drush
+
+- name: Setup Acquia cloud API credentials.
+  shell: drush ac-api-login --email={{ acapi_email }} --key={{ acapi_key }} --endpoint={{ acapi_endpoint }} && drush acquia-update
+  when: acapi_email and acapi_key
+
+- name: Update Acquia cloud drush aliases.
+  shell: drush acquia-update
+  when: acapi_email and acapi_key
+- shell: drush cc drush
+
+# Download database if configured.
+- include: database-download.yml
+  when: acapi_alias and acapi_db_name

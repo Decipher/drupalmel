@@ -5,7 +5,7 @@
 #
 
 # Space (!) separated list of files or directories to scan.
-targets: "modules/custom themes/custom"
+targets: "drupalmel.* modules/custom themes/custom"
 # Comma-separated list of extensions to scan.
 extensions: "module,install,profile,php,theme,inc,test"
 # Comma-separated list of required standards to use.

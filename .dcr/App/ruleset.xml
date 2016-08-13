@@ -8,12 +8,14 @@
   -->
 
   <!--Do not check generated files.-->
-  <exclude-pattern>*\.features\.*</exclude-pattern>
-  <exclude-pattern>*\.strongarm\.*</exclude-pattern>
+  <exclude-pattern>*\.apihub\.*</exclude-pattern>
   <exclude-pattern>*\.context\.*</exclude-pattern>
+  <exclude-pattern>*\.default_meetup_groups\.*</exclude-pattern>
+  <exclude-pattern>*\.features\.*</exclude-pattern>
+  <exclude-pattern>*\.feeds_*\.inc</exclude-pattern>
+  <exclude-pattern>*\.strongarm\.*</exclude-pattern>
   <exclude-pattern>*\.pages_default\.*</exclude-pattern>
-  <exclude-pattern>*feeds_tamper*\.inc</exclude-pattern>
-  
+
   <!--Allow long arrays in tests for readability.-->
   <rule ref="Drupal.Array.Array.LongLineDeclaration">
     <exclude-pattern>*\.test</exclude-pattern>

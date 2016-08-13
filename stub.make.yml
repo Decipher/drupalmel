@@ -1,0 +1,21 @@
+core: 7.x
+api: 2
+
+
+
+# Drupal core
+
+projects:
+  drupal:
+    type: core
+    version: 7.41
+
+
+
+# Install profile
+
+  drupalmel:
+    type: profile
+    download:
+      type: copy
+      url: .

@@ -1,0 +1,33 @@
+---
+- hosts: localhost
+  connection: local
+  become: yes
+
+  vars:
+    beet_profile: "{{ lookup('env','BEET_PROFILE') | default('beetbox',true) }}"
+
+  vars_files:
+    - "config/profiles/{{ beet_profile }}.config.yml"
+    - config/project.config.yml
+    - config/host.config.yml
+    - config/config.yml
+    - config/local.config.yml
+
+  pre_tasks:
+    - name: Include CI config.
+      include_vars: "{{ beet_base }}/.beetbox/ci.config.yml"
+      when: "{{ lookup('env','BEET_CI') }}"
+
+    - include: "{{ item }}"
+      with_fileglob:
+        - "{{ beet_custom_pre_tasks }}"
+
+  roles:
+    - role: beetbox-init
+    - role: beetboxvm.drupal
+      drush_path: /usr/local/bin/drush
+
+  tasks:
+    - include: "{{ item }}"
+      with_fileglob:
+        - "{{ beet_custom_post_tasks }}"

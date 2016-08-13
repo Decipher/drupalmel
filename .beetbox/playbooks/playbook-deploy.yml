@@ -1,0 +1,46 @@
+---
+- hosts: localhost
+  connection: local
+  become: yes
+
+  vars:
+    beet_profile: "{{ lookup('env','BEET_PROFILE') | default('beetbox',true) }}"
+
+  vars_files:
+    - "config/profiles/{{ beet_profile }}.config.yml"
+    - config/project.config.yml
+    - config/host.config.yml
+    - config/config.yml
+    - config/local.config.yml
+    - "{{ beet_base }}/.beetbox/ci.config.yml"
+
+  roles:
+    - role: beetbox-php-ppa
+    - role: realityloop.acquiacloud
+
+  tasks:
+    - name: Generate SSH key for current user.
+      user:
+        name: root
+        generate_ssh_key: yes
+        ssh_key_bits: 4096
+
+    - name: Add SSH key to Acquia.
+      command: >
+        {{ drush_path }} @{{ acapi_alias }} ac-sshkey-add ~/.ssh/id_rsa.pub ci
+
+    - name: Clone artifacts repository.
+      git:
+        repo: "{{ deploy_repo }}"
+        dest: "{{ beet_base }}/acquia"
+        accept_hostkey: yes
+
+    - name: Synchronize codebase into artifacts repository.
+      synchronize:
+        src: "{{ beet_base }}/docroot"
+        dest: "{{ beet_base }}/acquia"
+        recursive: yes
+
+#    - name: Remove SSH from Acquia.
+#      command: >
+#        {{ drush_path }} @{{ acapi_alias }} ac-sshkey-delete ci

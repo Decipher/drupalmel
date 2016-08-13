@@ -1,0 +1,105 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+
+  environment:
+    PATH: "{{ lookup('env','PATH') }}:{{ beet_base }}/vendor/bin:{{ beet_base }}/tests/behat/vendor/bin"
+
+  vars:
+    beet_profile: "{{ lookup('env','BEET_PROFILE') | default('beetbox',true) }}"
+
+  vars_files:
+    - "config/profiles/{{ beet_profile }}.config.yml"
+    - config/project.config.yml
+    - config/host.config.yml
+    - config/config.yml
+    - config/local.config.yml
+
+  pre_tasks:
+    - name: Include CI config.
+      include_vars: "{{ beet_base }}/.beetbox/ci.config.yml"
+      when: "{{ lookup('env','BEET_CI') }}"
+
+  roles:
+    - role: beetbox-php-ppa
+    - role: beetboxvm.packages
+      extra_packages:
+        - mysql-client
+        - python-mysqldb
+    - role: geerlingguy.apache
+    - role: geerlingguy.mailhog
+    - role: realityloop.acquiacloud
+    - role: alexdesignworks.dcr
+      dcr_install_dir: "{{ beet_base }}"
+
+  tasks:
+    - name: Setup tests report file.
+      set_fact:
+        results_file: "{{ beet_home }}/.beetbox/results-tests.txt"
+    - file:
+        path: "{{ results_file }}"
+        state: absent
+
+    - name: Drupal code review.
+      command: >
+        dcr -v --no-messages
+        chdir={{ beet_base }}
+      failed_when: false
+      register: dcr_output
+    - lineinfile:
+        dest: "{{ results_file }}"
+        line: "{{ dcr_output.stdout }}"
+        create: yes
+    - debug:
+        msg: "{{ dcr_output.stdout_lines }}"
+
+    - name: Install site, ensuring that a fresh install of the profile works.
+      command: >
+        /usr/bin/env PHP_OPTIONS="-d sendmail_path=/bin/true" {{ drush_path }} si -y {{ drupal_install_profile }} --db-url=mysql://root@mysql/beetbox
+        chdir={{ beet_web }}
+      register: install_output
+    - lineinfile:
+        dest: "{{ results_file }}"
+        line: "{{ install_output.stdout }}"
+        create: yes
+    - debug:
+        msg: "{{ install_output.stdout_lines }}"
+      failed_when: install_output.rc != 0
+
+    # Drop database; drush sql-drop -y.
+    - name: Drop installed database.
+      command: >
+        {{ drush_path }} sql-drop -y
+        chdir={{ beet_web }}
+
+    - name: Ensure PHP FPM is running.
+      command: service php5.6-fpm start
+
+    # Import database.
+    - name: Import downloaded database.
+      mysql_db:
+        login_host: mysql
+        name: beetbox
+        state: import
+        target: "{{ acapi_db_download_destination }}/backup.sql"
+
+    # Run updates; drush updb -y.
+    - name: Run database updates.
+      command: >
+        {{ drush_path }} updb -y
+        chdir={{ beet_web }}
+
+    - name: Behat tests.
+      command: >
+        behat
+        chdir={{ beet_base }}/tests/behat
+      failed_when: false
+      register: behat_output
+    - lineinfile:
+        dest: "{{ results_file }}"
+        line: "{{ behat_output.stdout }}"
+    - debug:
+        msg: "{{ behat_output.stdout_lines }}"
+      failed_when: behat_output.rc != 0

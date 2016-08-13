@@ -1,0 +1,19 @@
+---
+machine:
+  environment:
+    BEET_BASE: "/home/ubuntu/workspace"
+    BEET_CONF: "$BEET_BASE/.beetbox/config.yml"
+    BEET_REPO: "https://github.com/beetboxvm/beetbox.git"
+    ROLE_NAME: "beetboxvm.drupal"
+dependencies:
+  override:
+    - git clone $BEET_REPO --recursive && sudo mv beetbox /
+    - sudo rm -rf /beetbox/provisioning/ansible/roles/$ROLE_NAME
+    - sudo ln -s ~/$CIRCLE_PROJECT_REPONAME /beetbox/provisioning/ansible/roles/$ROLE_NAME
+    - sudo mkdir -p $BEET_BASE/.beetbox
+test:
+  override:
+    - c() { sudo cp .beetbox/$1.yml $BEET_CONF; } && case $CIRCLE_NODE_INDEX in 0) c config ;; 1) c composer ;; 2) c drupal7 ;; esac:
+        parallel: true
+    - /beetbox/provisioning/beetbox.sh:
+        parallel: true

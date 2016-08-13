@@ -1,0 +1,8 @@
+---
+acapi_alias: false
+acapi_db_download_destination: ~/databases
+acapi_db_download_id: false
+acapi_db_name: false
+acapi_email: false
+acapi_endpoint: https://cloudapi.acquia.com/v1
+acapi_key: false

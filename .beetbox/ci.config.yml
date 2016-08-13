@@ -1,0 +1,28 @@
+---
+
+# Drupal settings.
+
+drupal_distro: no
+drupal_install_site: no
+drupal_install_profile: drupalmel
+
+
+
+# Drupal code review settings.
+
+dcr_init: yes
+
+
+
+# Acquia cloud API settings.
+
+acapi_alias: drupalmelbourne.dev
+acapi_db_name: drupalmelbourne
+acapi_email: drupalmelbourne@gmail.com
+acapi_key: "{{ lookup('env','ACAPI_KEY') }}"
+
+
+
+#
+
+deploy_repo: drupalmelbourne@svn-15689.prod.hosting.acquia.com:drupalmelbourne.git

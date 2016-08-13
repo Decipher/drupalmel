@@ -43,4 +43,3 @@ nodes[realityloop][language] = und
 
 variables[site_mail] = drupalmelbourne@gmail.com
 variables[site_name] = DrupalMelbourne
-

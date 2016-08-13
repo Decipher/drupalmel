@@ -2,6 +2,7 @@
 
 /**
  * @file
+ * Image metatag feeds tamper.
  */
 
 $plugin = array(
@@ -12,11 +13,7 @@ $plugin = array(
 );
 
 /**
- * @param $importer
- * @param $element_key
- * @param $settings
- *
- * @return array
+ * Feeds tamper form callback.
  */
 function drupalmel_feeds_tamper_image_metatag_form($importer, $element_key, $settings) {
   $form['info'] = array(
@@ -27,12 +24,7 @@ function drupalmel_feeds_tamper_image_metatag_form($importer, $element_key, $set
 }
 
 /**
- * @param $result
- * @param $item_key
- * @param $element_key
- * @param $field
- * @param $settings
- * @param $source
+ * Feeds tamper callback.
  */
 function drupalmel_feeds_tamper_image_metatag_callback($result, $item_key, $element_key, &$field, $settings, $source) {
   $item = $result->items[$item_key];

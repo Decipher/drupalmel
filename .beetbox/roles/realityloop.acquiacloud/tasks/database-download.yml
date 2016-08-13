@@ -1,0 +1,19 @@
+---
+- name: Ensure database backup destination exists.
+  file:
+    path: "{{ acapi_db_download_destination }}"
+    state: directory
+
+- name: Get latest database backup id.
+  shell: "drush @{{ acapi_alias }} ac-database-instance-backup-list {{ acapi_db_name }} | grep -E \"^.*id.*:.*([0-9]+).*$\" | tail -1 | cut -d: -f2 | xargs"
+  register: acapi_db_backup_latest
+  when: not acapi_db_download_id
+- set_fact:
+    acapi_db_download_id: "{{ acapi_db_backup_latest.stdout }}"
+  when: not acapi_db_download_id
+
+- name: Download database backup.
+  shell: drush @{{ acapi_alias }} ac-database-instance-backup-download {{ acapi_db_name }} {{ acapi_db_download_id }} > {{ acapi_db_download_destination }}/backup.sql.gz
+
+- name: Extract database backup.
+  shell: gunzip -f {{ acapi_db_download_destination }}/backup.sql.gz

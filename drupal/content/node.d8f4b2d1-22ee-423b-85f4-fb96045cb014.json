@@ -1,0 +1,129 @@
+{
+    "uuid": [
+        {
+            "value": "d8f4b2d1-22ee-423b-85f4-fb96045cb014"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "page",
+            "target_type": "node_type",
+            "target_uuid": "c52cd9cb-d0eb-46fd-ac6a-e7f5a32054d5"
+        }
+    ],
+    "revision_timestamp": [
+        {
+            "value": "2022-03-16T07:02:36+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "revision_uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "fb85df17-bbd5-4b75-890e-e010d6410ac0"
+        }
+    ],
+    "revision_log": [
+        {
+            "value": "Initial homepage"
+        }
+    ],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "fb85df17-bbd5-4b75-890e-e010d6410ac0"
+        }
+    ],
+    "title": [
+        {
+            "value": "Homepage"
+        }
+    ],
+    "created": [
+        {
+            "value": "2022-03-16T07:00:07+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2022-03-16T07:02:36+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "promote": [
+        {
+            "value": false
+        }
+    ],
+    "sticky": [
+        {
+            "value": false
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "path": [
+        {
+            "alias": "\/homepage",
+            "langcode": "en",
+            "pathauto": 0
+        }
+    ],
+    "content_translation_source": [
+        {
+            "value": "und"
+        }
+    ],
+    "content_translation_outdated": [
+        {
+            "value": false
+        }
+    ],
+    "field_display_title": [
+        {
+            "value": "Homepage"
+        }
+    ],
+    "field_content": [
+        {
+            "target_type": "paragraph",
+            "target_uuid": "b04b4b4f-1a5f-4888-b986-ac0b4ff28d11"
+        },
+        {
+            "target_type": "paragraph",
+            "target_uuid": "89962b01-3e14-4623-bbfe-d8e88783b2d7"
+        }
+    ],
+    "field_content_supplementary": [],
+    "field_description": [
+        {
+            "value": "DrupalMelbourne - https:\/\/melbourne.drupal.org.au"
+        }
+    ],
+    "field_display": [
+        {
+            "value": "landing"
+        }
+    ],
+    "field_image": [],
+    "field_meta_tags": []
+}

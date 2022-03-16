@@ -42,6 +42,7 @@ export default {
     ['@nuxt/image', { domains: [baseUrl] }],
     '@nuxtjs/tailwindcss',
     'druxt-site',
+    'druxt-layout-paragraphs'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

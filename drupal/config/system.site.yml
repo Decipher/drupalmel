@@ -1,14 +1,15 @@
 _core:
-  default_config_hash: VDJxTZtQR21qB4lvOq8zszJZLvLKrSPQpdn2E3T71Ww
+  default_config_hash: yXadRE77Va-G6dxhd2kPYapAvbnSvTF6hO4oXiOEynI
 langcode: en
-uuid: cdd7e2d8-9dcd-46ea-ac8c-f189d7a5be88
-name: 'Drush Site-Install'
-mail: admin@example.com
+uuid: c014c208-2bbf-45d1-b9ef-4c7a5f1063b9
+name: Foundry
+mail: info@client-domain.com
 slogan: ''
 page:
   403: ''
   404: ''
-  front: /node
+  front: /user/login
 admin_compact_mode: false
 weight_select_max: 100
 default_langcode: en
+mail_notification: ''
